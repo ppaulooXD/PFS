@@ -1,7 +1,10 @@
+const PerfilModel = require("../models/perfilModel");
+
 class LoginController{
 
     loginView(req, res){
-        //get
+        let perfil = new PerfilModel(20, "admin");
+        console.log(perfil.id, perfil.descricao);
         res.render('login.ejs', {layout: false});
     }
 
