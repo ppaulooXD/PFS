@@ -61,6 +61,26 @@ class UsuarioModel {
         this.#perfilId = perfilId;
     }
 
+    async obter(id) {
+        let sql = "select * from tb_usuario where usu_id = ?";
+        let valores = [id]
+        let banco = new Database();
+        let lista = [];
+        let rows = await banco.ExecutaComando(sql, valores);
+
+        for(let i = 0; i < rows.length; i++) {
+
+            lista.push(new UsuarioModel(rows[i]["usu_id"], 
+                                        rows[i]["usu_nome"],
+                                        rows[i]["usu_email"],
+                                        rows[i]["usu_senha"],
+                                        rows[i]["usu_ativo"],
+                                        rows[i]["per_id"]));
+        }
+
+        return lista;
+    }
+
     async listar() {
 
         let sql = "select * from tb_usuario";
