@@ -100,6 +100,26 @@ class UsuarioModel {
         return lista;
     }
 
+    async listaAutenticacao(email, senha) {
+
+        let sql = "select * from tb_usuario where usu_email = ? and usu_senha = ? and usu_ativo = 1";
+        let banco = new Database();
+        let valores = [email, senha]
+        let lista = [];
+        let rows = await banco.ExecutaComando(sql, valores);
+        for(let i = 0; i < rows.length; i++) {
+
+            lista.push(new UsuarioModel(rows[i]["usu_id"], 
+                                        rows[i]["usu_nome"],
+                                        rows[i]["usu_email"],
+                                        rows[i]["usu_senha"],
+                                        rows[i]["usu_ativo"],
+                                        rows[i]["per_id"]));
+        }
+
+        return lista;
+    }
+
 
 
 }

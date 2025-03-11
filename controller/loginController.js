@@ -12,7 +12,7 @@ class LoginController {
         let cor = "red";
 
         let usuarioModel = new UsuarioModel();
-        let usuarios = await usuarioModel.listar();  
+        let usuarios = await usuarioModel.listaAutenticacao(usuario, senha);  
 
         let autenticado = false;
 
