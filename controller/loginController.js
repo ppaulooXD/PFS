@@ -1,26 +1,35 @@
-const PerfilModel = require("../models/perfilModel");
+const UsuarioModel = require("../models/usuarioModel");
 
-class LoginController{
+class LoginController {
 
-    loginView(req, res){
-        let perfil = new PerfilModel(20, "admin");
-        console.log(perfil.id, perfil.descricao);
-        res.render('login.ejs', {layout: false});
+    async loginView(req, res) {
+        res.render('login.ejs', { layout: false });
     }
 
-    login(req,res){
-        //post
-        const usuario = req.body.usuario;
-        const senha = req.body.senha;
+    async login(req, res) {
+        const { usuario, senha } = req.body;
         let msg = "Usuário ou senha inválidos";
         let cor = "red";
 
-        if (usuario === 'fulano@gmail.com' && senha==='123'){
-            msg = "Login bem sucedido!";
-            cor = "green";
+        let usuarioModel = new UsuarioModel();
+        let usuarios = await usuarioModel.listar();  
+
+        let autenticado = false;
+
+        for (let user of usuarios) {
+            if (user.email === usuario && user.senha === senha && user.ativo) {
+                autenticado = true;
+                break; 
+            }
         }
 
-        res.render('login.ejs', {'mensagem':msg, 'color':cor, layout: false});
+        if (autenticado) {
+            msg = "Login bem sucedido!";
+            cor = "green";
+            return res.redirect('/');
+        }
+
+        res.render('login.ejs', { mensagem: msg, color: cor, layout: false });
     }
 }
 
