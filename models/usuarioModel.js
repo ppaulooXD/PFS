@@ -61,6 +61,15 @@ class UsuarioModel {
         this.#perfilId = perfilId;
     }
 
+    async gravar() {
+        let sql = "insert into tb_usuario (usu_nome, usu_email, usu_senha, usu_ativo, per_id) values (?, ?, ?, ?, ?)";
+        let valores = [this.#nome, this.#email, this.#senha, this.#ativo, this.#perfilId];
+        let banco = new Database();
+        let resultado = await banco.ExecutaComandoNonQuery(sql, valores);
+
+        return resultado;
+    }
+
     async obter(id) {
         let sql = "select * from tb_usuario where usu_id = ?";
         let valores = [id]

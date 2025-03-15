@@ -1,3 +1,5 @@
+const Database = require("../utils/database");
+
 class PerfilModel {
 
     #id;
@@ -23,8 +25,18 @@ class PerfilModel {
         this.descricao = descricao;
     }
 
-    teste() {
+    async listar() {
+        let sql = "select * from tb_perfil";
 
+        let banco = new Database();
+        let lista = [];
+        let rows = await banco.ExecutaComando(sql);
+        for(let i = 0; i <rows.length; i++) {
+            lista.push(new PerfilModel(rows[i]["per_id"], 
+                                       rows[i]["per_descricao"]));
+        }
+
+        return lista;
     }
 }
 
