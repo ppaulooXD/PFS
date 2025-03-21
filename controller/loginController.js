@@ -1,9 +1,10 @@
+const PerfilModel = require("../models/perfilModel");
 const UsuarioModel = require("../models/usuarioModel");
 
-class LoginController {
+class LoginController{
 
-    async loginView(req, res) {
-        res.render('login.ejs', { layout: false });
+    async loginView(req, res){
+        res.render('login.ejs', {layout: false});
     }
 
     async login(req, res) {

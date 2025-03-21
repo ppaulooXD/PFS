@@ -62,8 +62,11 @@ class UsuarioModel {
     }
 
     async gravar() {
-        let sql = "insert into tb_usuario (usu_nome, usu_email, usu_senha, usu_ativo, per_id) values (?, ?, ?, ?, ?)";
-        let valores = [this.#nome, this.#email, this.#senha, this.#ativo, this.#perfilId];
+        let sql = `insert into tb_usuario 
+                        (usu_nome, usu_email, usu_senha, usu_ativo, per_id)
+                   values 
+                        (?, ?, ?, ?, ?)`;
+        let valores = [this.#nome, this.#email, this.#senha, this.#ativo, this.#perfilId]
         let banco = new Database();
         let resultado = await banco.ExecutaComandoNonQuery(sql, valores);
 
@@ -71,12 +74,12 @@ class UsuarioModel {
     }
 
     async obter(id) {
-        let sql = "select * from tb_usuario where usu_id = ?";
-        let valores = [id]
-        let banco = new Database();
-        let lista = [];
-        let rows = await banco.ExecutaComando(sql, valores);
 
+        let sql = "select * from tb_usuario where usu_id = ?";
+        let valores = [id];
+        let banco = new Database();
+        let rows = await banco.ExecutaComando(sql, valores);
+        let lista = [];
         for(let i = 0; i < rows.length; i++) {
 
             lista.push(new UsuarioModel(rows[i]["usu_id"], 
@@ -88,6 +91,7 @@ class UsuarioModel {
         }
 
         return lista;
+
     }
 
     async listar() {
@@ -128,7 +132,6 @@ class UsuarioModel {
 
         return lista;
     }
-
 
 
 }

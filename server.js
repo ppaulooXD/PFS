@@ -11,7 +11,7 @@ app.use(express.static("public"));
 app.set("layout", "./layout.ejs");
 app.use(expressEjsLayout);
 app.use(express.urlencoded({extended:true}));
-
+app.use(express.json());
 app.use("/", rotaHome);
 app.use("/login", rotaLogin);
 app.use("/usuario", rotaUsuario);
