@@ -133,6 +133,15 @@ class UsuarioModel {
         return lista;
     }
 
+    async excluir(id) {
+        let sql = "delete from tb_usuario where usu_id = ?";
+        let banco = new Database();
+        const valores = [id];
+        const resultado = banco.ExecutaComandoNonQuery(sql, valores);
+        
+        return resultado;
+    }
+
 
 }
 

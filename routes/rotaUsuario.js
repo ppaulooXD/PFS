@@ -7,5 +7,7 @@ let ctrl = new UsuarioController();
 router.get("/", ctrl.listarView);
 router.get("/cadastro", ctrl.cadastrarView);
 router.post("/cadastro", ctrl.cadastrar);
+router.get("/excluir/:id", ctrl.excluir);
+router.get("/alterar/:id", ctrl.alterarView;);
 
 module.exports = router;

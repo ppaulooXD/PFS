@@ -41,6 +41,35 @@ class UsuarioController {
            }) 
         }
     }
+
+    async excluir(req, res) {
+                //parametro id da url
+        const id = req.params.id;
+        const usuario = new UsuarioModel();
+        const resultado = await usuario.excluir(id);
+        let msg = "";
+        if(resultado) {
+            msg = "Usuário excluído com sucesso!"
+        }
+        else {
+            msg = "Não foi possível excluir o Usuário!"
+        }
+        res.json({
+            ok:resultado,
+            msg:msg
+        })
+
+    }
+
+    async alterarView(req, res) {
+        const id = req.params.id;
+        const usuario = new UsuarioModel();
+        const usuarioAlteracao = await usuario.obter(id)[0];
+        let perfil = new PerfilModel();
+        let listaPerfil = await perfil.listar(); 
+        res.render('/usuario/cadastro', {usuarioAlteracao, listaP:listaPerfil});
+
+    }
 }
 
 module.exports = UsuarioController;

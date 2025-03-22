@@ -1,3 +1,4 @@
+<script src="/js/usuarios/listar.js"></script>
 <h1>Usuários</h1>
 <a href="/usuario/cadastro" 
 class="btn btn-primary">Cadastrar usuário</a>
@@ -10,6 +11,7 @@ class="btn btn-primary">Cadastrar usuário</a>
             <th>Email</th>
             <th>Ativo</th>
             <th>Perfil</th>
+            <th>Ações</th>
         </tr>
     </thead>
     <tbody>
@@ -20,6 +22,12 @@ class="btn btn-primary">Cadastrar usuário</a>
                 <td><%= usuarios[i].email %></td>
                 <td><%= usuarios[i].ativo %></td>
                 <td><%= usuarios[i].perfilId %></td>
+                <td>
+                    <button type="button" data-id="<%=usuarios[i].id%>" data-nome="<%=usuarios[i].nome%>" class="btn btn-danger btn-exclusao">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <a class="btn btn-warning" href="/usuario/alterar/<%=usuarios[i].id%>"><i class="fas fa-pen"></i></a>
+                </td>
             </tr>
         <% } %>
     </tbody>
