@@ -142,6 +142,15 @@ class UsuarioModel {
         return resultado;
     }
 
+    async alterar() {
+        let sql = `UPDATE tb_usuario
+               SET usu_nome = ?, usu_email = ?, usu_senha = ?, usu_ativo = ?, per_id = ?
+               WHERE usu_id = ?`;
+        let valores = [this.#nome, this.#email, this.#senha, this.#ativo, this.#perfilId, this.#id];
+        let banco = new Database();
+        let resultado = await banco.ExecutaComandoNonQuery(sql, valores);
+        return resultado;
+}
 
 }
 

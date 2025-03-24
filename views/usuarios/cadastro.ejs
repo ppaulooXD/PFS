@@ -1,39 +1,6 @@
-<script src="/js/usuarios/cadastro.js"></script>
-<h1>Cadastrar novo usuário</h1>
-<% if (typeof usuarioAlteracao == 'undefined') {%>
-<div>
-    <div class="form-group">
-        <label>Nome:</label>
-        <input id="input-nome" class="form-control" type="text" />
-    </div>
-    <div class="form-group">
-        <label>Email:</label>
-        <input type="email" class="form-control" id="input-email" />
-    </div>
-    <div class="form-group">
-        <label>Senha:</label>
-        <input type="password" class="form-control" id="input-senha" />
-    </div>
-    <div class="form-group">
-        <label>Perfil:</label>
-        <select class="form-control" id="select-perfil">
-            <option value="0">-- Selecione --</option>
-            <% for(let i = 0; i<listaP.length; i++) { %>
-                <option value="<%= listaP[i].id %>"><%= listaP[i].descricao %></option>
-            <% } %>
-        </select>
-    </div>
+<% if (typeof usuarioAlteracao == 'undefined') { %>
+    <!-- Formulário de cadastro (Novo usuário) -->
     <div>
-        <label><input type="checkbox" id="cb-ativo"> Usuário ativo</label>
-    </div>
-    <div style="margin-top: 30px;">
-        <button class="btn btn-primary" id="btn-cadastrar">Cadastrar</button>
-        <a class="btn btn-default" href="/usuario"> Voltar</a>
-    </div>
-</div>
-<% } else { %>
-    <div>
-        <input type="hidden" id="input-id" value="<% usuarioAlteracao.id %>">
         <div class="form-group">
             <label>Nome:</label>
             <input id="input-nome" class="form-control" type="text" />
@@ -50,7 +17,7 @@
             <label>Perfil:</label>
             <select class="form-control" id="select-perfil">
                 <option value="0">-- Selecione --</option>
-                <% for(let i = 0; i<listaP.length; i++) { %>
+                <% for (let i = 0; i < listaP.length; i++) { %>
                     <option value="<%= listaP[i].id %>"><%= listaP[i].descricao %></option>
                 <% } %>
             </select>
@@ -63,4 +30,42 @@
             <a class="btn btn-default" href="/usuario"> Voltar</a>
         </div>
     </div>
-    <% } %>
+<% } else { %>
+    <!-- Formulário de alteração de usuário -->
+    <div>
+        <input type="hidden" id="input-id" value="<%= usuarioAlteracao.id %>"/>
+        <div class="form-group">
+            <label>Nome:</label>
+            <input id="input-nome" class="form-control" type="text" value="<%= usuarioAlteracao.nome %>" />
+        </div>
+        <div class="form-group">
+            <label>Email:</label>
+            <input type="email" class="form-control" id="input-email" value="<%= usuarioAlteracao.email %>" />
+        </div>
+        <div class="form-group">
+            <label>Senha:</label>
+            <input type="password" class="form-control" id="input-senha" value="<%= usuarioAlteracao.senha %>" />
+        </div>
+        <div class="form-group">
+            <label>Perfil:</label>
+            <select class="form-control" id="select-perfil">
+                <option value="0">-- Selecione --</option>
+                <% for (let i = 0; i < listaP.length; i++) { %>
+                    <% if (usuarioAlteracao.perfilId == listaP[i].id) { %>
+                        <option value="<%= listaP[i].id %>" selected><%= listaP[i].descricao %></option>
+                    <% } else { %>
+                        <option value="<%= listaP[i].id %>"><%= listaP[i].descricao %></option>
+                    <% } %>
+                <% } %>
+            </select>
+        </div>
+        <div>
+            <label><input type="checkbox" id="cb-ativo" <%= usuarioAlteracao.ativo ? 'checked' : '' %>> Usuário ativo</label>
+        </div>
+        <div style="margin-top: 30px;">
+            <button class="btn btn-primary" id="btn-alterar">Alterar</button>
+            <a class="btn btn-default" href="/usuario"> Voltar</a>
+        </div>
+    </div>
+<% } %>
+<script src="/js/usuarios/listar.js"></script>

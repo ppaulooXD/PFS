@@ -18,7 +18,6 @@ class UsuarioController {
     async cadastrar(req, res) {
         if(req.body.nome != "" && req.body.email != "" &&
             req.body.senha != "" && req.body.perfil != "0") {
-            //prosseguir com o cadastro
             let usuario = new UsuarioModel();
             usuario.nome = req.body.nome;
             usuario.email = req.body.email;
@@ -34,7 +33,6 @@ class UsuarioController {
             }   
         }
         else {
-           //retornar erro por conta da validação!
            res.send({
             ok: false,
             msg: "As informações do usuário estão incorretas!"
@@ -43,7 +41,6 @@ class UsuarioController {
     }
 
     async excluir(req, res) {
-                //parametro id da url
         const id = req.params.id;
         const usuario = new UsuarioModel();
         const resultado = await usuario.excluir(id);
@@ -64,12 +61,37 @@ class UsuarioController {
     async alterarView(req, res) {
         const id = req.params.id;
         const usuario = new UsuarioModel();
-        const usuarioAlteracao = await usuario.obter(id)[0];
-        let perfil = new PerfilModel();
-        let listaPerfil = await perfil.listar(); 
-        res.render('/usuario/cadastro', {usuarioAlteracao, listaP:listaPerfil});
+        const usuarioAlteracao = await usuario.obter(id);
 
+        if (usuarioAlteracao.length > 0) {
+            let perfil = new PerfilModel();
+            let listaPerfil = await perfil.listar();
+            res.render('usuarios/cadastro.ejs', { usuarioAlteracao: usuarioAlteracao[0], listaP: listaPerfil });
+        } else {
+            res.send({ ok: false, msg: "Usuário não encontrado!" });
+        }
     }
+
+async alterar(req, res) {
+    if (req.body.nome !== "" && req.body.email !== "" && req.body.senha !== "" && req.body.perfil !== "0") {
+        let usuario = new UsuarioModel();
+        usuario.id = req.body.id;
+        usuario.nome = req.body.nome;
+        usuario.email = req.body.email;
+        usuario.senha = req.body.senha;
+        usuario.perfilId = req.body.perfil;
+        usuario.ativo = req.body.ativo ? 1 : 0;
+
+        let ok = await usuario.alterar();
+        if (ok) {
+            res.send({ ok: true, msg: "Usuário alterado com sucesso" });
+        } else {
+            res.send({ ok: false, msg: "Erro ao alterar o usuário!" });
+        }
+    } else {
+        res.send({ ok: false, msg: "As informações do usuário estão incorretas!" });
+    }
+}
 }
 
 module.exports = UsuarioController;
